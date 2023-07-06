@@ -1,135 +1,138 @@
-import React, { Component } from "react"
-import { Link } from "gatsby"
-import { Menu, X } from "react-feather"
-import styled from "styled-components"
-import { Container } from "./style"
-
-
+import React, { Component } from "react";
+import { Link } from "gatsby";
+import { Menu, X } from "react-feather";
+import styled from "styled-components";
+import { Container } from "./style";
 
 export default class Navigation extends Component {
-    state = {
-        mobileMenuOpen: false,
-        hasScrolled: false,
+  state = {
+    mobileMenuOpen: false,
+    hasScrolled: false,
+  };
+
+  componentDidMount() {
+    window.addEventListener("scroll", this.handleScroll, { passive: true });
+  }
+
+  handleScroll = (event) => {
+    const scrollTop = window.pageYOffset;
+
+    if (scrollTop > 32) {
+      this.setState({ hasScrolled: true });
+    } else {
+      this.setState({ hasScrolled: false });
     }
+  };
 
-    componentDidMount() {
-        window.addEventListener("scroll", this.handleScroll, { passive: true })
+  toggleMobileMenu = () => {
+    this.setState((prevState) => ({
+      mobileMenuOpen: !prevState.mobileMenuOpen,
+    }));
+  };
+
+  closeMobileMenu = () => {
+    if (this.state.mobileMenuOpen) {
+      this.setState({ mobileMenuOpen: false });
     }
+  };
 
-    handleScroll = (event) => {
-        const scrollTop = window.pageYOffset
+  render() {
+    const { mobileMenuOpen } = this.state;
 
-        if (scrollTop > 32) {
-            this.setState({ hasScrolled: true })
-        } else {
-            this.setState({ hasScrolled: false })
-        }
-    }
-
-    toggleMobileMenu = () => {
-        this.setState((prevState) => ({
-            mobileMenuOpen: !prevState.mobileMenuOpen,
-        }))
-    }
-
-    closeMobileMenu = () => {
-        if (this.state.mobileMenuOpen) {
-            this.setState({ mobileMenuOpen: false })
-        }
-    }
-
-    render() {
-        const { mobileMenuOpen } = this.state
-
-        return (
-            <Nav {...this.props} scrolled={this.state.hasScrolled}>
-                <StyledContainer>
-                    <Brand>
-                        <Link to="/" onClick={this.closeMobileMenu}>
-                            <h2>ZLURI</h2>
-                        </Link>
-                    </Brand>
-                    <Mobile>
-                        <button
-                            onClick={this.toggleMobileMenu}
-                            style={{ color: "white", background: "none" }}
-                        >
-                            {this.state.mobileMenuOpen ? (
-                                <X size={24} alt="close menu" />
-                            ) : (
-                                <Menu size={24} alt="open menu" />
-                            )}
-                        </button>
-                    </Mobile>
-
-                    <Mobile hide>
-                        <NavListWrapper>
-                            <ul>
-                                <NavItem>
-                                    <a href="">Email</a>
-                                </NavItem>
-                                <NavItem>
-                                    <a href="">Contact me</a>
-                                </NavItem>
-                                <ActionsContainer>
-                                    <a href="https://get.zluri.com/request-demo">
-                                        <button>Resume</button>
-                                    </a>
-                                </ActionsContainer>
-                            </ul>
-                        </NavListWrapper>
-                    </Mobile>
-                </StyledContainer>
-                <Mobile>
-                    {mobileMenuOpen && (
-                        <MobileMenu>
-                            <NavListWrapperMobile mobile={true}>
-                                <ul>
-                                    <NavItemMobile>
-                                        <a href="">Email</a>
-                                    </NavItemMobile>
-                                    <NavItemMobile>
-                                        <a href="">Contact me</a>
-                                    </NavItemMobile>
-                                    <ActionsContainer>
-                                        <a href="https://get.zluri.com/request-demo">
-                                            <button>Resume</button>
-                                        </a>
-                                    </ActionsContainer>
-                                </ul>
-                            </NavListWrapperMobile>
-                        </MobileMenu>
-                    )}
-                </Mobile>
-            </Nav>
-        )
-    }
+    return (
+      <Nav {...this.props} scrolled={this.state.hasScrolled}>
+        <StyledContainer>
+          <Brand>
+            <Link to="/" onClick={this.closeMobileMenu}>
+              <h2> Arman Srivastava </h2>{" "}
+            </Link>{" "}
+          </Brand>{" "}
+          <Mobile>
+            <button
+              onClick={this.toggleMobileMenu}
+              style={{ color: "white", background: "none" }}
+            >
+              {" "}
+              {this.state.mobileMenuOpen ? (
+                <X size={24} alt="close menu" />
+              ) : (
+                <Menu size={24} alt="open menu" />
+              )}{" "}
+            </button>{" "}
+          </Mobile>{" "}
+          <Mobile hide>
+            <NavListWrapper>
+              <ul>
+                <NavItem>
+                  <a href="mailto:arman.bxm@gmail.com"> Email </a>{" "}
+                </NavItem>{" "}
+                <NavItem>
+                  <a href="tel:+917607075677"> Contact me </a>{" "}
+                </NavItem>{" "}
+                <ActionsContainer>
+                  <a
+                    href="https://drive.google.com/file/d/1gZZyFZcdHjQU4mc8RYT01YON7RBWNhJN/view?usp=drive_link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <button> Resume </button>{" "}
+                  </a>{" "}
+                </ActionsContainer>{" "}
+              </ul>{" "}
+            </NavListWrapper>{" "}
+          </Mobile>{" "}
+        </StyledContainer>{" "}
+        <Mobile>
+          {" "}
+          {mobileMenuOpen && (
+            <MobileMenu>
+              <NavListWrapperMobile mobile={true}>
+                <ul>
+                  <NavItemMobile>
+                    <a href=""> Email </a>{" "}
+                  </NavItemMobile>{" "}
+                  <NavItemMobile>
+                    <a href=""> Contact me </a>{" "}
+                  </NavItemMobile>{" "}
+                  <ActionsContainer>
+                    <a href="https://get.zluri.com/request-demo">
+                      <button> Resume </button>{" "}
+                    </a>{" "}
+                  </ActionsContainer>{" "}
+                </ul>{" "}
+              </NavListWrapperMobile>{" "}
+            </MobileMenu>
+          )}{" "}
+        </Mobile>{" "}
+      </Nav>
+    );
+  }
 }
 const StyledContainer = styled(Container)`
-display:flex;
-flex-direction:row;
-justify-content:space-between;
-`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
 const Nav = styled.nav`
-  padding: ${props => (props.scrolled ? `16px 0 12px` : `24px 0 20px`)};
+  padding: ${(props) => (props.scrolled ? `16px 0 12px` : `24px 0 20px`)};
   position: fixed;
   width: 100%;
   top: 0;
   z-index: 1000;
-  background: ${props => (props.scrolled ? `black` : null)};
+  background: ${(props) => (props.scrolled ? `black` : null)};
   transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
   @media (max-width: 991px) {
     padding: ${(props) => (props.scrolled ? `16px 0 15px` : `24px 0 15px`)};
   }
-  &:hover{
+  &:hover {
     background: #000000;
-    transition:0.3s ease-in-out 0s;
+    transition: 0.3s ease-in-out 0s;
   }
-`
+`;
 
 const NavListWrapper = styled.div`
   display: flex;
-  @media (max-width: 1199px)  {
+  @media (max-width: 1199px) {
     column-gap: 10px;
   }
   ul {
@@ -138,11 +141,11 @@ const NavListWrapper = styled.div`
     margin: 0;
     display: flex;
     flex-direction: row;
-    padding:0;
-    column-gap:5px;
+    padding: 0;
+    column-gap: 5px;
     li {
-border-radius: 23.5px;
-transition: 0.3s ease-in-out 0s;
+      border-radius: 23.5px;
+      transition: 0.3s ease-in-out 0s;
       &:hover {
         text-decoration: underline !important;
       }
@@ -160,7 +163,7 @@ transition: 0.3s ease-in-out 0s;
         }
       `};
   }
-`
+`;
 const NavListWrapperMobile = styled.div`
   display: flex;
   column-gap: 45px;
@@ -172,7 +175,6 @@ const NavListWrapperMobile = styled.div`
     padding: 0 20px;
     display: flex;
     flex-direction: row;
-    
 
     ${({ mobile }) =>
       mobile &&
@@ -186,25 +188,25 @@ const NavListWrapperMobile = styled.div`
         }
       `};
   }
-`
+`;
 
 const NavItem = styled.li`
-font-family: 'Lexend Medium';
-font-style: normal;
-font-weight: 500;
-font-size: 16px;
-line-height: 160%;
-height: 41px;
-text-align: center;
-color: #FFFFFF;
-margin: 0 -3.5px;
-padding: 8px 14px;
-  
-border-radius: 23.5px;
+  font-family: "Lexend Medium";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 160%;
+  height: 41px;
+  text-align: center;
+  color: #ffffff;
+  margin: 0 -3.5px;
+  padding: 8px 14px;
+
+  border-radius: 23.5px;
 
   a {
     text-decoration: none;
-    color: #FFFFFF;
+    color: #ffffff;
   }
 
   &.active {
@@ -217,7 +219,7 @@ border-radius: 23.5px;
   span {
     margin: 0 0 1px 6px;
   }
-`
+`;
 const NavItemMobile = styled.li`
   margin: 0 0.75em;
   padding: 15px 0;
@@ -225,11 +227,11 @@ const NavItemMobile = styled.li`
 
   font-size: 20px;
   line-height: 24px;
-  
+
   a {
     text-decoration: none;
     opacity: 0.9;
-    color: #FFFFFF;
+    color: #ffffff;
   }
 
   &.active {
@@ -243,15 +245,15 @@ const NavItemMobile = styled.li`
     margin: 0 0 1px 6px;
   }
   @media (max-width: 991px) {
-    width:650px;
+    width: 650px;
   }
   @media (max-width: 767px) {
-    width:460px;
+    width: 460px;
   }
-  @media (max-width: ${props => props.theme.screen.xs}) {
-    width:300px;
+  @media (max-width: ${(props) => props.theme.screen.xs}) {
+    width: 300px;
   }
-`
+`;
 
 const MobileMenu = styled.div`
   width: 100%;
@@ -264,32 +266,32 @@ const MobileMenu = styled.div`
   height: 600px;
   width: 100%;
   overflow-y: scroll;
-`
+`;
 const MultiBrand = styled.div`
-text-decoration: none;
-letter-spacing: 1px;
-margin: 0;
-a {
-    color: #FFFFFF;
   text-decoration: none;
-}
-div{
-  @media (max-width: 767px) {
+  letter-spacing: 1px;
+  margin: 0;
+  a {
+    color: #ffffff;
+    text-decoration: none;
+  }
+  div {
+    @media (max-width: 767px) {
+      display: none;
+    }
+  }
+  span {
     display: none;
+    @media (max-width: 767px) {
+      display: block;
+    }
   }
-}
-span{
-  display:none;
-  @media (max-width: 767px) {
-    display: block;
-  }
-}
-`
+`;
 const Brand = styled.div`
-h2{
-  font-family: Lexend Bold;
-  color: #FFFFFF;
-}
+  h2 {
+    font-family: Lexend Bold;
+    color: #ffffff;
+  }
   text-decoration: none;
   letter-spacing: 1px;
   margin: 0;
@@ -305,26 +307,26 @@ h2{
     padding: 0;
 
     a {
-  color: #FFFFFF;
+      color: #ffffff;
       text-decoration: none;
     }
   }
-`
+`;
 
 const ActionsContainer = styled.div`
-padding: 5px 0 5px 12px;
+  padding: 5px 0 5px 12px;
 
   button {
-    font-family: 'Lexend Medium';
-font-style: normal;
-font-weight: 500;
-font-size: 16px;
-line-height: 160%;
-text-align: center;
-color: #000000;
-cursor:pointer;
-    background: #FFFFFF;
-    border: 2px solid #FFFFFF;
+    font-family: "Lexend Medium";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 160%;
+    text-align: center;
+    color: #000000;
+    cursor: pointer;
+    background: #ffffff;
+    border: 2px solid #ffffff;
     border-radius: 47px;
     padding: 2px 22px;
     box-shadow: inset 0 0 0 0 #fff;
@@ -332,7 +334,7 @@ cursor:pointer;
     -moz-transition: ease-out 0.4s;
     transition: ease-out 0.4s;
   }
-`
+`;
 const Mobile = styled.div`
   display: none;
   align-self: center;
@@ -341,7 +343,7 @@ const Mobile = styled.div`
     display: block;
   }
 
-  ${props =>
+  ${(props) =>
     props.hide &&
     `
     display: block;
@@ -350,4 +352,4 @@ const Mobile = styled.div`
       display: none;
     }
   `}
-`
+`;
